@@ -16,9 +16,10 @@ let orders = [];
 // Predefined categories for validation
 const validCategories = ['FastFood', 'Drinks', 'Desserts', 'MainCourse'];
 
-// **1. Add Menu Item (GET /menu)**
-app.get('/menu', (req, res) => {
-  const { name, price, category } = req.query;
+// **1. Add Menu Item (POST /menu)**
+// Using POST request to add a menu item via body data
+app.post('/menu', (req, res) => {
+  const { name, price, category } = req.body;
 
   // Validate input
   if (!name || !price || isNaN(price) || price <= 0 || !validCategories.includes(category)) {
@@ -26,7 +27,14 @@ app.get('/menu', (req, res) => {
   }
 
   // Create new menu item
-  const newItem = { id: uuidv4(), name, price: parseFloat(price), category };
+  const newItem = {
+    id: uuidv4(),
+    name,
+    price: parseFloat(price),
+    category
+  };
+
+  // Add the new item to the menu
   menu.push(newItem);
 
   // Return the newly added item
